@@ -5,13 +5,13 @@ $password = "";
 $dbName ="testDB7";
 $tableName = "house";
 $table2Name = "people";
-
+$table3Name = "socialNetwork";
 
 $conn = new mysqli($serverName, $userName, $password);
 if ($conn->connect_error) {
     die("Connection error".$conn->connect_error);
 }
-$sql ="DROP DATABASE `testDB7`";
+$sql ="DROP DATABASE {$dbName}";
 $conn->query($sql);
 
 $sql = "CREATE DATABASE $dbName";
@@ -41,22 +41,23 @@ $sql1.= "CREATE TABLE `{$dbName}`.`{$table2Name}` (
         `idHouse` INT NOT NULL , 
          PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci";
 
+$sql1.= "CREATE TABLE `{$dbName}`.`{$table2Name}` ( 
+        `id` INT NOT NULL AUTO_INCREMENT , 
+        `name` VARCHAR(30) NOT NULL , 
+        `soname` VARCHAR(30) NOT NULL , 
+        `apartmentNumber` INT(4) NOT NULL , 
+        `idHouse` INT NOT NULL , 
+         PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci";
 
 
 if ($conn1->multi_query($sql1)===true) {
-    echo "user created<br>";
+    echo "table created<br>";
 } else {
     echo $conn1->error;
 }
 $conn1->close();
 
 
-
-
-/*ALTER TABLE `people`
-ADD FOREIGN KEY (`houseId`) REFERENCES `house`(`id`);*/
-
-// ;
 $conn2 = new mysqli($serverName, $userName, $password, $dbName);
 
  $sql2.="ALTER TABLE `people` ADD FOREIGN KEY (`idHouse`) REFERENCES `house`(`id`);";
@@ -75,7 +76,7 @@ $sql2.= "INSERT INTO {$tableName} (numberHouse, street, town) VALUES('7', 'Ба�
 $sql2.= "INSERT INTO {$tableName} (numberHouse, street, town) VALUES('5', 'Бажана', 'Киев');";
 $sql2.= "INSERT INTO {$tableName} (numberHouse, street, town) VALUES('8', 'Бажана', 'Киев');";
 if ($conn2->multi_query($sql2)===true) {
-    echo "user created<br>";
+    echo "house created<br>";
 } else {
     echo $conn2->error;
 }
@@ -88,7 +89,7 @@ $sql2.= "INSERT INTO {$table2Name} (name, soname, apartmentNumber, idHouse) VALU
 $sql2.= "INSERT INTO {$table2Name} (name, soname, apartmentNumber, idHouse) VALUES('Vasa', 'big', '23' , '1');";
 $sql2.= "INSERT INTO {$table2Name} (name, soname, apartmentNumber, idHouse) VALUES('Vasa', 'big', '24' , '1');";
 if ($conn2->multi_query($sql2)===true) {
-    echo "user created<br>";
+    echo "people created<br>";
 } else {
     echo $conn2->error;
 }
